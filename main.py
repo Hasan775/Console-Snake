@@ -6,12 +6,13 @@ from time import sleep
 from os import system
 from random import randint
 import keyboard
-ma = (7, 5)
+ma = (15, 10)
 class Snake:
     direc = [1, 0]
     head = [3, 2]
     body = []
     score = 0
+    speed = 1
     def startAgain(self):
         self.head = [3, 2]
         self.direc = [1, 0]
@@ -41,6 +42,13 @@ class Snake:
         self.head[1] = (self.head[1] + direc[1]) % ma[1]
     def dirChange(self, x, y):
         self.direc = [x, y]
+    def speedChange(self, speed):
+        if speed <= 0:
+            self.speed = 1
+        elif speed >= 6:
+            self.speed = 5
+        else:
+            self.speed = speed
     def headCheck(self, apple):
         if self.head in self.body:
             return True
@@ -76,11 +84,13 @@ keyboard.add_hotkey('left', lambda: snake.dirChange(-1, 0))
 keyboard.add_hotkey('up', lambda: snake.dirChange(0, -1))
 keyboard.add_hotkey('down', lambda: snake.dirChange(0, 1))
 while True:
+    print("Choose speed from 1 to 5")
+    snake.speedChange(int(input()))
     snake.startAgain()
     while not snake.headCheck(apple):
         snake.move(snake.direc)
         drawFrame(ma[0], ma[1])
-        sleep(1)
-    print(f"Game Over!Your score {snake.score} \nPress enter to start new game...")
+        sleep(1/ snake.speed)
+    print(f"Game Over! Your score {snake.score} \nPress enter to start new game...")
     input()
     system('cls')
