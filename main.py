@@ -41,7 +41,9 @@ class Snake:
         self.head[0] = (self.head[0] + direc[0]) % ma[0]
         self.head[1] = (self.head[1] + direc[1]) % ma[1]
     def dirChange(self, x, y):
-        self.direc = [x, y]
+        #Checking if direction that we will put not turning him back 
+        if self.direc[0] != x and self.direc[1] != y:
+            self.direc = [x, y]
     def speedChange(self, speed):
         if speed <= 0:
             self.speed = 1
